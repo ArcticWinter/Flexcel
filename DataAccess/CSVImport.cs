@@ -31,8 +31,8 @@ namespace DataAccess
         }
         public float TryParseToFloatElseZero(string toParse)
         {
-            string CurrentCultureName = Thread.CurrentThread.CurrentCulture.Name;
-            CultureInfo cultureInformation = new CultureInfo(CurrentCultureName);
+            string currentCultureName = Thread.CurrentThread.CurrentCulture.Name;
+            CultureInfo cultureInformation = new CultureInfo(currentCultureName);
             if (cultureInformation.NumberFormat.NumberDecimalSeparator != ",")
             // Forcing use of decimal separator for numerical values
             {

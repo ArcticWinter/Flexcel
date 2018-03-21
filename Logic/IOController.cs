@@ -16,13 +16,13 @@ namespace Logic
        
         public void InitializeExportToPublishList(string filePath)
         {
-            CSVExportToPublishList ExportToPublishList = new CSVExportToPublishList(filePath);
-            ExportToPublishList.CreateFile(); 
+            CSVExportToPublishList exportToPublishList = new CSVExportToPublishList(filePath);
+            exportToPublishList.CreateFile(); 
         }
         public void InitializeExportToCallingList(string filePath)
         {
-            CSVExportToCallList ExportCallList = new CSVExportToCallList(filePath);
-            ExportCallList.CreateFile();
+            CSVExportToCallList exportCallList = new CSVExportToCallList(filePath);
+            exportCallList.CreateFile();
         }
         public void InitializeImport(string masterDataFilepath, string routeNumberFilepath)
         {

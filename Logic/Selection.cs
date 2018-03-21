@@ -41,13 +41,13 @@ namespace Logic
                     for (int i = 0; i < numbersToCalc; i++)
                     {
                         float difference = 0;
-                        int j = i + 1;
+                        int count = i + 1;
                         if (routeNumber.offers[i].OperationPrice != routeNumber.offers[numbersToCalc].OperationPrice)
                         {
-                            while (difference == 0 && j <= numbersToCalc)
+                            while (difference == 0 && count <= numbersToCalc)
                             {
-                                difference = routeNumber.offers[j].OperationPrice - routeNumber.offers[i].OperationPrice;
-                                j++;
+                                difference = routeNumber.offers[count].OperationPrice - routeNumber.offers[i].OperationPrice;
+                                count++;
                             }
                         }
                         else

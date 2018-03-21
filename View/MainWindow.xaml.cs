@@ -56,17 +56,17 @@ namespace View
         {
             try
             {
-                mainWindowViewModel.InitializeSelection();
-                ListContainer listContainer = ListContainer.GetInstance();
-                List<Offer> outputListByUserID = listContainer.outputList.OrderBy(x => x.UserID).ToList();
-                listView.ItemsSource = outputListByUserID;
-                foreach(Offer offer in listContainer.outputList)
+                mainWindowViewModel.InitializeSelection(); // Checks if the 2 .CSV files has been imported, if so, selects the winners.
+                ListContainer listContainer = ListContainer.GetInstance(); // No clue what this does
+                List<Offer> outputListByUserID = listContainer.outputList.OrderBy(x => x.UserID).ToList(); // Sorts the list
+                listView.ItemsSource = outputListByUserID; // Updates the GUI with the results
+                foreach(Offer offer in listContainer.outputList) // No clue what this does
                 {
                     offer.Contractor.CountNumberOfWonOffersOfEachType(listContainer.outputList); 
                 }
-                MessageBox.Show("Udvælgelsen er nu færdig");
+                MessageBox.Show("Udvælgelsen er nu færdig"); // Shows a pop message telling the selection has been completed
             }
-            catch (Exception x)
+            catch (Exception x) // Error handling
             {
                 PromptWindow promptWindow = new PromptWindow(x.Message);
                 promptWindow.Show();

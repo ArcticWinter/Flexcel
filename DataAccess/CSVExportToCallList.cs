@@ -56,12 +56,12 @@ namespace DataAccess
                 }
 
                 // Open the stream and read it back.
-                using (StreamReader sr = File.OpenText(FilePath))
+                using (StreamReader streamWriter = File.OpenText(FilePath))
                 {
-                    string s = "";
-                    while ((s = sr.ReadLine()) != null)
+                    string streamResults = "";
+                    while ((streamResults = streamWriter.ReadLine()) != null)
                     {
-                        Console.WriteLine(s);
+                        Console.WriteLine(streamResults);
                     }
                 }
             }

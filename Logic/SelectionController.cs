@@ -6,52 +6,51 @@ namespace Logic
 {
     public class SelectionController
     {       
-        public List<RouteNumber> routeNumberList;
-        public Selection selection;
-        public List<RouteNumber> sortedRouteNumberList;
-        ListContainer listContainer = ListContainer.GetInstance();
+        public List<RouteNumber> RouteNumberList;
+        public Selection Selection;
+        public List<RouteNumber> SortedRouteNumberList;
+        ListContainer ListContainer = ListContainer.GetInstance();
         
         public SelectionController()
         {
-            routeNumberList = new List<RouteNumber>();
-            selection = new Selection();
+            RouteNumberList = new List<RouteNumber>();
+            Selection = new Selection();
         }
 
-        private void SortRouteNumberList(List<RouteNumber> routeNumberList)
+        private void SortRouteNumberList(List<RouteNumber> RouteNumberList)
         {
-            sortedRouteNumberList = routeNumberList.OrderBy(x => x.RouteID).ToList();
-            foreach (RouteNumber routeNumber in sortedRouteNumberList)
+            SortedRouteNumberList = RouteNumberList.OrderBy(x => x.RouteID).ToList();
+            foreach (RouteNumber routeNumber in SortedRouteNumberList)
             {
                 routeNumber.offers = routeNumber.offers.OrderBy(x => x.OperationPrice).ThenBy(x => x.RouteNumberPriority).ToList();
             }
         }
         public void SelectWinners()
         {
-            routeNumberList = listContainer.routeNumberList;
-            SortRouteNumberList(routeNumberList);
+            RouteNumberList = ListContainer.routeNumberList;
+            SortRouteNumberList(RouteNumberList);
             List<Offer> offersToAssign = new List<Offer>();
 
-            selection.CalculateOperationPriceDifferenceForOffers(sortedRouteNumberList);
-            int lengthOfSortedRouteNumberList = sortedRouteNumberList.Count();
+            Selection.CalculateOperationPriceDifferenceForOffers(SortedRouteNumberList);
+            int lengthOfSortedRouteNumberList = SortedRouteNumberList.Count();
             for (int i = 0; i < lengthOfSortedRouteNumberList; i++)
             {
-                List<Offer> toAddToAssign = selection.FindWinner(sortedRouteNumberList[i]);
+                List<Offer> toAddToAssign = Selection.FindWinner(SortedRouteNumberList[i]);
                 foreach (Offer offer in toAddToAssign)
                 {
                     offersToAssign.Add(offer);
                 }
             }
-            List<Offer> offersThatAreIneligible = selection.AssignWinners(offersToAssign, sortedRouteNumberList);
+            List<Offer> offersThatAreIneligible = Selection.AssignWinners(offersToAssign, SortedRouteNumberList);
 
-            bool allRouteNumberHaveWinner = DoAllRouteNumbersHaveWinner(offersThatAreIneligible);
-            if (allRouteNumberHaveWinner)
+            if (DoAllRouteNumbersHaveWinner(offersThatAreIneligible))
             {
-                selection.CheckIfContractorHasWonTooManyRouteNumbers(CreateWinnerList(), sortedRouteNumberList);
-                selection.CheckForMultipleWinnersForEachRouteNumber(CreateWinnerList());
+                Selection.CheckIfContractorHasWonTooManyRouteNumbers(CreateWinnerList(), SortedRouteNumberList);
+                Selection.CheckForMultipleWinnersForEachRouteNumber(CreateWinnerList());
                 List<Offer> winningOffers = CreateWinnerList();
                 foreach (Offer offer in winningOffers)
                 {
-                    listContainer.outputList.Add(offer);
+                    ListContainer.outputList.Add(offer);
                 }
             }
             else
@@ -66,11 +65,11 @@ namespace Logic
 
             foreach (Offer offer in offersThatHaveBeenMarkedIneligible)
             {
-                foreach (RouteNumber routeNumber in sortedRouteNumberList)
+                foreach (RouteNumber routeNumber in SortedRouteNumberList)
                 {
                     if (routeNumber.RouteID == offer.RouteID)
                     {
-                        List<Offer> offersToAssignToContractor = selection.FindWinner(routeNumber);
+                        List<Offer> offersToAssignToContractor = Selection.FindWinner(routeNumber);
                         foreach (Offer ofr in offersToAssignToContractor)
                         {
                             offersToAssign.Add(ofr);
@@ -78,15 +77,15 @@ namespace Logic
                     }
                 }
             }
-            offersThatHaveBeenMarkedIneligible = selection.AssignWinners(offersToAssign, sortedRouteNumberList);
+            offersThatHaveBeenMarkedIneligible = Selection.AssignWinners(offersToAssign, SortedRouteNumberList);
             bool allRouteNumberHaveWinner = DoAllRouteNumbersHaveWinner(offersThatHaveBeenMarkedIneligible);
             if (allRouteNumberHaveWinner)
             {
-                selection.CheckIfContractorHasWonTooManyRouteNumbers(CreateWinnerList(), sortedRouteNumberList);
-                selection.CheckForMultipleWinnersForEachRouteNumber(CreateWinnerList());
+                Selection.CheckIfContractorHasWonTooManyRouteNumbers(CreateWinnerList(), SortedRouteNumberList);
+                Selection.CheckForMultipleWinnersForEachRouteNumber(CreateWinnerList());
                 foreach (Offer offer in CreateWinnerList())
                 {
-                    listContainer.outputList.Add(offer);
+                    ListContainer.outputList.Add(offer);
                 }
             } // Sidste punkt
             else
@@ -98,11 +97,11 @@ namespace Logic
         {
             List<Offer> winningOffers = new List<Offer>();
 
-            foreach (Contractor c in listContainer.contractorList)
+            foreach (Contractor contractor in ListContainer.contractorList)
             {
-                foreach (Offer o in c.winningOffers)
+                foreach (Offer offer in contractor.winningOffers)
                 {
-                    winningOffers.Add(o);
+                    winningOffers.Add(offer);
                 }
             }
             return winningOffers;

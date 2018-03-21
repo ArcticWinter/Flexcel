@@ -77,15 +77,15 @@ namespace Domain
         }
         public List<Offer> ReturnIneligibleOffers()
         {
-            List<Offer> InEligibleOffersToReturn = new List<Offer>();
+            List<Offer> inEligibleOffersToReturn = new List<Offer>();
             foreach (Offer offer in winningOffers)
             {
                 if (!offer.IsEligible)
                 {
-                    InEligibleOffersToReturn.Add(offer);
+                    inEligibleOffersToReturn.Add(offer);
                 }
             }
-            return InEligibleOffersToReturn;
+            return inEligibleOffersToReturn;
         }
         public void RemoveIneligibleOffersFromWinningOffers()
         {
@@ -120,25 +120,24 @@ namespace Domain
                 {
                     if (offer.IsEligible)
                     {
-                        if (offer.RequiredVehicleType == 2)
+                        int value = offer.RequiredVehicleType;
+                        switch (value)
                         {
-                            type2++;
-                        }
-                        if (offer.RequiredVehicleType == 3)
-                        {
-                            type3++;
-                        }
-                        if (offer.RequiredVehicleType == 5)
-                        {
-                            type5++;
-                        }
-                        if (offer.RequiredVehicleType == 6)
-                        {
-                            type6++;
-                        }
-                        if (offer.RequiredVehicleType == 7)
-                        {
-                            type7++;
+                            case 2:
+                                type2++;
+                                break;
+                            case 3:
+                                type3++;
+                                break;
+                            case 5:
+                                type5++;
+                                break;
+                            case 6:
+                                type6++;
+                                break;
+                            case 7:
+                                type7++;
+                                break;
                         }
                     }
                 }
